@@ -23,5 +23,10 @@
 #define _GFXCONF_H
 
 #include "common_gfxconf.h"
+#define GDISP_NEED_TEXT			TRUE
+#define GDISP_NEED_UTF8			TRUE
+#define GDISP_NEED_ANTIALIAS		TRUE   // if wanted
+#define GDISP_NEED_TEXT_KERNING		TRUE   // if wanted
+#define GDISP_INCLUDE_USER_FONTS	TRUE
 
 #endif /* _GFXCONF_H */

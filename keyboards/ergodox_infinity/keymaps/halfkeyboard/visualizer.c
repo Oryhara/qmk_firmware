@@ -12,11 +12,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "visualizer.h"
 #include "gfx.h"
 #include "math.h"
-#include "default_animations.h"
+#include "string.h"
 #include "led_backlight_keyframes.h"
+#include "visualizer.h"
+#include "visualizer_keyframes.h"
+#include "lcd_keyframes.h"
+#include "lcd_backlight_keyframes.h"
+#include "system/serial_link.h"
+#include "led.h"
+#include "default_animations.h"
 
 #define ONESIDESCAN 9
 #define BOTHSIDESCAN 16
@@ -27,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CROSSFADE_TIME 8000
 bool KITT_scan_one_side_left_to_right(keyframe_animation_t* animation, visualizer_state_t* state);
 bool KITT_scan_one_side_right_to_left(keyframe_animation_t* animation, visualizer_state_t* state);
+
 keyframe_animation_t Fade_in_all_leds = {
     .num_frames = 1,
     .loop = false,
@@ -146,6 +153,48 @@ bool KITT_scan_one_side_right_to_left(keyframe_animation_t* animation, visualize
     return true;
 }
 #endif
+#define LED_STATE_STRING_SIZE sizeof("NUM CAPS SCRL COMP KANA")
+
+static void my_get_led_state_string(char* output, visualizer_state_t* state) {
+    uint8_t pos = 0;
+
+    if (state->status.leds & (1u << USB_LED_NUM_LOCK)) {
+       memcpy(output + pos, "NUM ", 4);
+       pos += 4;
+    }
+    if (state->status.leds & (1u << USB_LED_CAPS_LOCK)) {
+       memcpy(output + pos, "CAPS ", 5);
+       pos += 5;
+    }
+    if (state->status.leds & (1u << USB_LED_SCROLL_LOCK)) {
+       memcpy(output + pos, "SCRL ", 5);
+       pos += 5;
+    }
+    if (state->status.leds & (1u << USB_LED_COMPOSE)) {
+       memcpy(output + pos, "COMP ", 5);
+       pos += 5;
+    }
+    if (state->status.leds & (1u << USB_LED_KANA)) {
+       memcpy(output + pos, "KANA", 4);
+       pos += 4;
+    }
+    output[pos] = 0;
+}
+
+bool my_lcd_keyframe_display_layer_and_led_states(keyframe_animation_t* animation, visualizer_state_t* state) {
+    (void)animation;
+    gdispClear(White);
+    font_t myfont = gdispOpenFont("Eurostile BQ Regular 8");
+    uint8_t y = 10;
+    if (state->status.leds) {
+        char output[LED_STATE_STRING_SIZE];
+        my_get_led_state_string(output, state);
+        gdispDrawString(0, 1, output, myfont, Black);
+        y = 17;
+    }
+    gdispDrawString(0, y, state->layer_text, myfont, Black);
+    return false;
+}
 
 #define RED 0
 #define ORANGE 21

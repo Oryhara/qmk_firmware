@@ -84,6 +84,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 #define MUSIC_MASK keycode != KC_NO
+
+/*
+ * Adding a pretty font to the LCD display
+ */
+#define GDISP_NEED_TEXT			TRUE
+#define GDISP_NEED_UTF8			TRUE
+#define GDISP_NEED_ANTIALIAS		TRUE   // if wanted
+#define GDISP_NEED_TEXT_KERNING		TRUE   // if wanted
+#define GDISP_INCLUDE_USER_FONTS	TRUE
 /*
  * Feature disable options
  *  These options are also useful to firmware size reduction.

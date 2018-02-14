@@ -40,15 +40,15 @@ static const uint32_t logo_background_color = LCD_COLOR(0x00, 0x00, 0xFF);
 static const uint32_t initial_color = LCD_COLOR(0, 0, 0);
 
 static bool initial_update = true;
-
 // Feel free to modify the animations below, or even add new ones if needed
 extern keyframe_animation_t KITT_Scanner_animation;
+bool my_lcd_keyframe_display_layer_and_led_states(keyframe_animation_t* animation, visualizer_state_t* state);
 
 static keyframe_animation_t lcd_layer_display = {
     .num_frames = 1,
     .loop = false,
     .frame_lengths = {gfxMillisecondsToTicks(0)},
-    .frame_functions = {lcd_keyframe_display_layer_and_led_states}
+    .frame_functions = {my_lcd_keyframe_display_layer_and_led_states}
 };
 
 // The color animation animates the LCD color when you change layers
