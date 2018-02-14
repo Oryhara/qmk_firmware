@@ -3,6 +3,8 @@
 #include "action_layer.h"
 #include "version.h"
 #include "keymap_steno.h"
+#include "process_midi.h"
+
 #ifndef MIDI_ENABLE
 #error "Midi is not enabled"
 #endif
@@ -691,8 +693,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
       }
     return MACRO_NONE;
 };
-
+#ifndef MIDI_ADVANCED
+#error "midi not advanced"
+#endif
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  //make the music magic
+
+
+  process_midi(keycode, record);
+
   switch (keycode) {
     // dynamically generate these.
     case EPRM:
