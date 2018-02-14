@@ -700,7 +700,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   //make the music magic
 
 
-  process_midi(keycode, record);
+  process_midi(midi_compute_note(keycode), record);
 
   switch (keycode) {
     // dynamically generate these.
