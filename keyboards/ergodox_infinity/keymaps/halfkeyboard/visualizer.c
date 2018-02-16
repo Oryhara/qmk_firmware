@@ -190,7 +190,7 @@ bool all_on_left_to_right(keyframe_animation_t* animation, visualizer_state_t* s
   (void)state;
   float frame_length = animation->frame_lengths[animation->current_frame];
   float current_pos = frame_length - animation->time_left_in_frame;
-  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int phase = current_pos/(frame_length/ONESIDEFILL);
   int row = 0;
   gdispGClear(LED_DISPLAY, FULL_ON);//all keys on
   gdispGDrawLine(LED_DISPLAY, 0, row, 6,row, HALF_ON);//relevant line off
@@ -204,7 +204,7 @@ bool all_off_left_to_right(keyframe_animation_t* animation, visualizer_state_t* 
   (void)state;
   float frame_length = animation->frame_lengths[animation->current_frame];
   float current_pos = frame_length - animation->time_left_in_frame;
-  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int phase = current_pos/(frame_length/ONESIDEFILL);
   int row = 0;
   gdispGClear(LED_DISPLAY, FULL_ON);//all keys on
   gdispGDrawLine(LED_DISPLAY, 0, row, 6,row, FULL_ON);//relevant line off
@@ -218,7 +218,7 @@ bool all_on_right_to_left(keyframe_animation_t* animation, visualizer_state_t* s
   (void)state;
   float frame_length = animation->frame_lengths[animation->current_frame];
   float current_pos = frame_length - animation->time_left_in_frame;
-  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int phase = current_pos/(frame_length/ONESIDEFILL);
   int row = 0;
   gdispGClear(LED_DISPLAY, FULL_ON);//all keys on
   gdispGDrawLine(LED_DISPLAY, 0, row, 6,row, HALF_ON);//relevant line off
@@ -232,7 +232,7 @@ bool all_off_right_to_left(keyframe_animation_t* animation, visualizer_state_t* 
   (void)state;
   float frame_length = animation->frame_lengths[animation->current_frame];
   float current_pos = frame_length - animation->time_left_in_frame;
-  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int phase = current_pos/(frame_length/ONESIDEFILL);
   int row = 0;
   gdispGClear(LED_DISPLAY, FULL_ON);//all keys on
   gdispGDrawLine(LED_DISPLAY, 0, row, 6,row, FULL_ON);//relevant line off
