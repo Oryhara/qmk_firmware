@@ -20,13 +20,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define ONESIDESCAN 9
 #define BOTHSIDESCAN 16
+#define ONESIDEFILL 15
 #define FULL_ON LUMA2COLOR(255)
 #define THREE_QUARTER LUMA2COLOR(200)
 #define HALF_ON LUMA2COLOR(150)
 #define ONE_QUARTER LUMA2COLOR(50)
+#define FULL_OFF LUMA2COLOR(0)
 #define CROSSFADE_TIME 8000
 bool KITT_scan_one_side_left_to_right(keyframe_animation_t* animation, visualizer_state_t* state);
 bool KITT_scan_one_side_right_to_left(keyframe_animation_t* animation, visualizer_state_t* state);
+bool all_on_left_to_right(keyframe_animation_t* animation, visualizer_state_t* state);
+bool all_on_right_to_left(keyframe_animation_t* animation, visualizer_state_t* state);
+bool all_off_left_to_right(keyframe_animation_t* animation, visualizer_state_t* state);
+bool all_off_right_to_left(keyframe_animation_t* animation, visualizer_state_t* state);
+
 keyframe_animation_t Fade_in_all_leds = {
     .num_frames = 1,
     .loop = false,
@@ -104,48 +111,138 @@ bool KITT_scan_one_side_right_to_left(keyframe_animation_t* animation, visualize
     gdispGDrawPixel(LED_DISPLAY, 6, row, ONE_QUARTER);
     return true;
 }
+keyframe_animation_t FILL_Scanner_animation = {
+  .num_frames = 4,
+  .loop = true,
+  .frame_lengths = {
+      CROSSFADE_TIME * ONESIDEFILL,
+      CROSSFADE_TIME * ONESIDEFILL,
+      CROSSFADE_TIME * ONESIDEFILL,
+      CROSSFADE_TIME * ONESIDEFILL,
+  },
+  .frame_functions = {
+    all_on_right_to_left,
+    all_off_right_to_left,
+    all_off_left_to_right,
+    all_off_left_to_right,
+  },
+};
+
 #else /*left side*/
 keyframe_animation_t KITT_Scanner_animation = {
-    .num_frames = 2,
-    .loop = true,
-    .frame_lengths = {
-        CROSSFADE_TIME * BOTHSIDESCAN,
-        CROSSFADE_TIME * BOTHSIDESCAN,
-    },
-    .frame_functions = {
-        KITT_scan_one_side_left_to_right,
-        KITT_scan_one_side_right_to_left,
-    },
+  .num_frames = 2,
+  .loop = true,
+  .frame_lengths = {
+      CROSSFADE_TIME * BOTHSIDESCAN,
+      CROSSFADE_TIME * BOTHSIDESCAN,
+  },
+  .frame_functions = {
+      KITT_scan_one_side_left_to_right,
+      KITT_scan_one_side_right_to_left,
+  },
+};
+keyframe_animation_t FILL_Scanner_animation = {
+  .num_frames = 4,
+  .loop = true,
+  .frame_lengths = {
+      CROSSFADE_TIME * ONESIDEFILL,
+      CROSSFADE_TIME * ONESIDEFILL,
+      CROSSFADE_TIME * ONESIDEFILL,
+      CROSSFADE_TIME * ONESIDEFILL,
+  },
+  .frame_functions = {
+      all_off_left_to_right,
+      all_off_left_to_right,
+      all_on_right_to_left,
+      all_off_right_to_left,
+  },
 };
 
 bool KITT_scan_one_side_left_to_right(keyframe_animation_t* animation, visualizer_state_t* state) {
-    (void)state;
-    float frame_length = animation->frame_lengths[animation->current_frame];
-    float current_pos = frame_length - animation->time_left_in_frame;
-    int phase = current_pos/(frame_length/BOTHSIDESCAN);
-    int row = 0;
-    gdispGClear(LED_DISPLAY, ONE_QUARTER);
-    gdispGDrawPixel(LED_DISPLAY, phase, row, FULL_ON);
-    gdispGDrawPixel(LED_DISPLAY, phase-1, row, THREE_QUARTER);
-    gdispGDrawPixel(LED_DISPLAY, phase-2, row, HALF_ON);
-    gdispGDrawPixel(LED_DISPLAY, 6, row, ONE_QUARTER);
-    return true;
+  (void)state;
+  float frame_length = animation->frame_lengths[animation->current_frame];
+  float current_pos = frame_length - animation->time_left_in_frame;
+  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int row = 0;
+  gdispGClear(LED_DISPLAY, ONE_QUARTER);
+  gdispGDrawPixel(LED_DISPLAY, phase, row, FULL_ON);
+  gdispGDrawPixel(LED_DISPLAY, phase-1, row, THREE_QUARTER);
+  gdispGDrawPixel(LED_DISPLAY, phase-2, row, HALF_ON);
+  gdispGDrawPixel(LED_DISPLAY, 6, row, ONE_QUARTER);
+  return true;
 }
 
 bool KITT_scan_one_side_right_to_left(keyframe_animation_t* animation, visualizer_state_t* state) {
-    (void)state;
-    float frame_length = animation->frame_lengths[animation->current_frame];
-    float current_pos = frame_length - animation->time_left_in_frame;
-    int phase = current_pos/(frame_length/BOTHSIDESCAN);
-    int row = 0;
-    gdispGClear(LED_DISPLAY, ONE_QUARTER);
-    gdispGDrawPixel(LED_DISPLAY, (14 - phase), row, FULL_ON);
-    gdispGDrawPixel(LED_DISPLAY, 14 - (phase-1), row, THREE_QUARTER);
-    gdispGDrawPixel(LED_DISPLAY, 14 - (phase-2), row, HALF_ON);
-    gdispGDrawPixel(LED_DISPLAY, 6, row, ONE_QUARTER);
-    return true;
+  (void)state;
+  float frame_length = animation->frame_lengths[animation->current_frame];
+  float current_pos = frame_length - animation->time_left_in_frame;
+  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int row = 0;
+  gdispGClear(LED_DISPLAY, ONE_QUARTER);
+  gdispGDrawPixel(LED_DISPLAY, (14 - phase), row, FULL_ON);
+  gdispGDrawPixel(LED_DISPLAY, 14 - (phase-1), row, THREE_QUARTER);
+  gdispGDrawPixel(LED_DISPLAY, 14 - (phase-2), row, HALF_ON);
+  gdispGDrawPixel(LED_DISPLAY, 6, row, ONE_QUARTER);
+  return true;
 }
 #endif
+bool all_on_left_to_right(keyframe_animation_t* animation, visualizer_state_t* state){
+  (void)state;
+  float frame_length = animation->frame_lengths[animation->current_frame];
+  float current_pos = frame_length - animation->time_left_in_frame;
+  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int row = 0;
+  gdispGClear(LED_DISPLAY, FULL_ON);//all keys on
+  gdispGDrawLine(LED_DISPLAY, 0, row, 6,row, HALF_ON);//relevant line off
+  gdispGDrawPixel(LED_DISPLAY, phase, row, HALF_ON);//phase = half
+  gdispGDrawPixel(LED_DISPLAY, phase -1, row, THREE_QUARTER);//phase-1 = 3/4
+  gdispGDrawLine(LED_DISPLAY, 0, row, phase - 2, row, FULL_ON);//phase-2 to 0 = full on
+  gdispGDrawPixel(LED_DISPLAY, 6, row, FULL_ON);
+  return true;
+}
+bool all_off_left_to_right(keyframe_animation_t* animation, visualizer_state_t* state){
+  (void)state;
+  float frame_length = animation->frame_lengths[animation->current_frame];
+  float current_pos = frame_length - animation->time_left_in_frame;
+  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int row = 0;
+  gdispGClear(LED_DISPLAY, FULL_ON);//all keys on
+  gdispGDrawLine(LED_DISPLAY, 0, row, 6,row, FULL_ON);//relevant line off
+  gdispGDrawPixel(LED_DISPLAY, phase, row, THREE_QUARTER);//phase = 3/4
+  gdispGDrawPixel(LED_DISPLAY, phase -1, row, HALF_ON);//phase-1 = half
+  gdispGDrawLine(LED_DISPLAY, 0, row, phase - 2, row, HALF_ON);//phase-2 to 0 = HALF on
+  gdispGDrawPixel(LED_DISPLAY, 6, row, FULL_ON);
+  return true;
+}
+bool all_on_right_to_left(keyframe_animation_t* animation, visualizer_state_t* state){
+  (void)state;
+  float frame_length = animation->frame_lengths[animation->current_frame];
+  float current_pos = frame_length - animation->time_left_in_frame;
+  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int row = 0;
+  gdispGClear(LED_DISPLAY, FULL_ON);//all keys on
+  gdispGDrawLine(LED_DISPLAY, 0, row, 6,row, HALF_ON);//relevant line off
+  gdispGDrawPixel(LED_DISPLAY, 13-phase, row, THREE_QUARTER);//phase = 3/4
+  gdispGDrawPixel(LED_DISPLAY, 13-(phase-1), row, FULL_ON);//phase-1 = half
+  gdispGDrawLine(LED_DISPLAY, 0, row, 13-(phase-2), row, FULL_ON);//phase-2 to 0 = HALF on
+  gdispGDrawPixel(LED_DISPLAY, 6, row, FULL_ON);
+  return true;
+}
+bool all_off_right_to_left(keyframe_animation_t* animation, visualizer_state_t* state){
+  (void)state;
+  float frame_length = animation->frame_lengths[animation->current_frame];
+  float current_pos = frame_length - animation->time_left_in_frame;
+  int phase = current_pos/(frame_length/BOTHSIDESCAN);
+  int row = 0;
+  gdispGClear(LED_DISPLAY, FULL_ON);//all keys on
+  gdispGDrawLine(LED_DISPLAY, 0, row, 6,row, FULL_ON);//relevant line off
+  gdispGDrawPixel(LED_DISPLAY, 13-phase, row, THREE_QUARTER);//phase = 3/4
+  gdispGDrawPixel(LED_DISPLAY, 13-(phase-1), row, HALF_ON);//phase-1 = half
+  gdispGDrawLine(LED_DISPLAY, 0, row, 13-(phase-2), row, HALF_ON);//phase-2 to 0 = HALF on
+  gdispGDrawPixel(LED_DISPLAY, 6, row, FULL_ON);
+  return true;
+}
+
 
 #define RED 0
 #define ORANGE 21
