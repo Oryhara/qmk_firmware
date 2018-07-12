@@ -37,14 +37,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------| -    |           | =    |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |LCTRL|ALT  |CTLShTab|CTL-TAB| LGui|                                       |  RGui| UP   | DOWN |  ALT | RCTRL  |
+ *   |LCTRL|ALT  |CTLShTab|CTL-TAB| SHORTCUTS|                               |SHORTCUTS| LEFT |RIGHT |  ALT | RCTRL  |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |Symbol|LMB   |       |Plover|HalfSymb|
+ *                                        |LGui  |LMB   |       |Plover|HalfSymb|
  *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      |MU_TOG|       | PgUp |        |      |
+ *                                 |      |      |  Up  |       | PgUp |        |      |
  *                                 | Space|DELETE|------|       |------|  Tab   |Enter |
- *                                 |mirror|      | End  |       | PgDn |        |mirror|
+ *                                 |mirror|      | Down |       | PgDn |        |mirror|
  *                                 `--------------------'       `----------------------'
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
@@ -57,16 +57,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSFT,        KC_Z,  		  KC_X,   KC_C,   KC_V,   KC_B,   KC_MINUS,
         KC_LCTRL, 		KC_LALT,	  LCTL(LSFT(KC_TAB)),LCTL(KC_TAB),  MO(SHORTCUTS),
                                               KC_LGUI,  KC_BTN1,
-                                                              MU_ON,
-                                         KC_SPACE,KC_DEL,KC_END,
+                                                              KC_UP,
+                                         KC_SPACE,KC_DEL,KC_DOWN,
         // right hand
              KC_BTN2,     KC_6,   KC_7,  KC_8,   KC_9,   KC_0,             KC_BSPC,
              KC_RBRC,    KC_Y,   KC_U,  KC_I,   KC_O,   KC_P,             KC_SLASH,
                           KC_H,   KC_J,  KC_K,   KC_L,   KC_SCLN,		   KC_ENT,
              KC_EQL,KC_N,   KC_M,  KC_COMM,KC_DOT, KC_SLASH,   	   KC_RSFT,
-                                  MO(SHORTCUTS), KC_UP,KC_DOWN,KC_RALT,           KC_RCTRL,
+                                  MO(SHORTCUTS), KC_LEFT,KC_RIGHT,KC_RALT,KC_RCTRL,
              KC_BTN1,        KC_RGUI,
-             MU_OFF,
+             KC_PGUP,
              KC_PGDN,KC_TAB, LT(HALFQWERTY, KC_ENT)
     ),
 /* Keymap 1: mirrored qwerty
@@ -128,9 +128,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        | Alt  |      |       |      |Alt   |
  *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | Home |       | PgUp |        |      |
+ *                                 |      |      | Up   |       | PgUp |        |      |
  *                                 | Space|DELETE|------|       |------|  Tab   |Enter |
- *                                 |mirror|      | End  |       | PgDn |        |mirror|
+ *                                 |mirror|      | Down |       | PgDn |        |mirror|
  *                                 `--------------------'       `----------------------'
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
@@ -153,7 +153,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   KC_TRNS, KC_UP,KC_DOWN,KC_RALT,           KC_RCTRL,
              KC_TRANSPARENT,        KC_TRANSPARENT,
              KC_PGUP,
-             KC_PGDN,KC_TAB, LT(HALFDVORAK, KC_ENT)
+ Home            KC_PGDN,KC_TAB, LT(HALFDVORAK, KC_ENT)
     ),
 /* Keymap 3: mirrored dvorak
  *
