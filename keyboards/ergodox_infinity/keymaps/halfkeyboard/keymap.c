@@ -51,12 +51,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [QWERTY] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
+
         KC_ESC,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_BSLS,
+
         KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_EQL,
         KC_BSPC,        KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
         KC_LSFT,        KC_Z,  		  KC_X,   KC_C,   KC_V,   KC_B,   KC_MINUS,
         KC_LCTRL, 		KC_LALT,	  LCTL(LSFT(KC_TAB)),LCTL(KC_TAB),  MO(SHORTCUTS),
                                               KC_LGUI,  KC_BTN1,
+
                                                               KC_UP,
                                          KC_SPACE,KC_DEL,KC_DOWN,
         // right hand
@@ -67,6 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   MO(SHORTCUTS), KC_LEFT,KC_RIGHT,KC_RALT,KC_RCTRL,
              KC_BTN1,        KC_RGUI,
              KC_PGUP,
+
              KC_PGDN,KC_TAB, LT(HALFQWERTY, KC_ENT)
     ),
 /* Keymap 1: mirrored qwerty
@@ -99,6 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ENT,        KC_SCLN,      KC_L,   KC_K,   KC_J,   KC_H,
         KC_LSFT,        KC_SLASH,  	  KC_DOT, KC_COMM,KC_M,   KC_N,   KC_RBRC,
         KC_LCTRL, 		KC_LALT,	   KC_TRNS,  KC_TRNS,  KC_TRNS,
+
                                               KC_TRNS,  KC_TRNS,
                                                               KC_TRNS,
                                          KC_TRANSPARENT,KC_DEL,KC_END,
@@ -304,7 +309,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 
+
 [PLVR] = LAYOUT_ergodox(  // layout: layer 7: Steno for Plover
+
+[PLVR] = KEYMAP(  // layout: layer 7: Steno for Plover
+
         // left hand
         KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,
         KC_NO,  KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   KC_TRNS,
@@ -369,6 +378,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
              KC_NO,
              KC_NO,KC_MS_BTN1, KC_MS_BTN2
     ),
+
 /*              KC_RGHT,     KC_6,   KC_7,  KC_8,   KC_9,   KC_0,             KC_BSPC,
              TG(SYMB),LCTL(KC_Y),LCTL(KC_U),LCTL(KC_I),LCTL(KC_O),LCTL(KC_P),KC_BSLS,
                           LCTL(KC_H),LCTL(KC_J),LCTL(KC_K),LCTL(KC_L),LCTL(KC_SCLN),KC_ENT,
@@ -378,6 +388,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
              KC_NO,
              KC_NO,KC_NO, KC_NO
     ), */
+
     /* Keymap 9: Functions
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
