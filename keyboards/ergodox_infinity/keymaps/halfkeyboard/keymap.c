@@ -11,7 +11,7 @@
 //no layer 4
 #define SYMB 5 // symbols
 #define HALFSYMB 6 // media keys
-#define PLVR 7 // steno plover layout
+//no layer 7
 #define SHORTCUTS 8 //layer with shortcut keys and other layer nav
 #define FUNCTION 9 //all F-keys, all day
 #define PROPERSTENO 10 //real steno layout
@@ -286,50 +286,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_TRNS,
        KC_NO, KC_NO, KC_TRANSPARENT
 ),
-/* Keymap 7: Steno for Plover from https://github.com/shayneholmes/tmk_keyboard/commit/11290f8489013018f778627db725160c745e75bd
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
- * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |   1  |   2  |   3  |   4  |   5  |      |           |      |  6   |  7   |   8  |   9  |  0   |        |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |   q  |   w  |   e  |   r  |   t  |------|           |------|  y   |  u   |   i  |   o  |  p   |   [    |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |   a  |   s  |   d  |   f  |   g  |      |           |      |  h   |  j   |   k  |   l  |  ;   |   '    |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      |      |      |                                       |      |      |      |      |      |
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |      |      |
- *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |      |
- *                                 |   c  |   v  |------|       |------|  n   |  m   |
- *                                 |      |      |      |       |      |      |      |
- *                                 `--------------------'       `--------------------'
- */
 
-
-[PLVR] = LAYOUT_ergodox(  // layout: layer 7: Steno for Plover
-
-        // left hand
-        KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,
-        KC_NO,  KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   KC_TRNS,
-        KC_NO,  KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,
-        KC_NO,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,   KC_NO,
-        KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,
-                                      KC_TRNS, KC_TRNS,
-                                           KC_NO,
-                                 KC_C,   KC_V,   KC_NO,
-        // right hand
-             KC_TRNS,  KC_NO,   KC_NO,   KC_NO,  KC_NO,   KC_NO,   KC_TRNS,
-             KC_TRNS,   KC_6,    KC_7,    KC_8,   KC_9,    KC_0,   KC_TRNS,
-                        KC_Y,   KC_U,    KC_I,    KC_O,   KC_P,    KC_LBRC,
-               KC_NO,   KC_H,    KC_J,    KC_K,   KC_L, KC_SCLN,   KC_QUOT,
-                              KC_TRNS, KC_TRNS,  KC_NO,   KC_NO,     KC_NO,
-        KC_TRNS, KC_TRNS,
-        KC_TRNS,
-        KC_NO,  KC_N,   KC_M
-),
 
 /* Keymap 8: shortcuts
  *
@@ -354,7 +311,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
-[SHORTCUTS] = LAYOUT_ergodox(  // layer 8 : default
+[SHORTCUTS] = LAYOUT_ergodox(  // layer 8= : default
         // left hand
         RGB_MODE_KNIGHT,         KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,
         KC_TAB,   LCTL(KC_Q),   LCTL(KC_W),LCTL(KC_E),LCTL(KC_R),LCTL(KC_T),   KC_NO,
