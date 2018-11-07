@@ -3,13 +3,11 @@
 #include "action_layer.h"
 #include "version.h"
 #include "keymap_steno.h"
-#ifndef MIDI_ENABLE
-#error "Midi is not enabled"
-#endif
-#define QWERTY 0 // qwerty layer
-#define HALFQWERTY 1 // mirrored qwerty layer
-#define DVORAK 2 // dvorak layer
-#define HALFDVORAK 3 // mirrored dvorak layer
+
+#define DVORAK 0 // dvorak layer
+#define HALFDVORAK 1 // mirrored dvorak layer
+#define QWERTY 2 // qwerty layer
+#define HALFQWERTY 3 // mirrored qwerty layer
 //no layer 4
 #define SYMB 5 // symbols
 #define HALFSYMB 6 // media keys
@@ -26,10 +24,98 @@ enum custom_keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-/* Keymap 0: qwerty
+/* Keymap 0: dvorak
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |  ESC   |   1  |   2  |   3  |   4  |   5  | RMB  |           | \    |   6  |   7  |   8  |   9  |   0  |  BSPC  |
+ * |  ESC   |   1  |   2  |   3  |   4  |   5  | `    |           | \    |   6  |   7  |   8  |   9  |   0  |  BSPC  |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * | TAB    |   '  |   ,  |   .  |   P  |   Y  |  [   |           |  ]   |   F  |   G  |   C  |   R  |   L  |   /    |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * | BkSp   |   A  |   O  |   E  |   U  |   I  |------|           |------|   D  |   H  |   T  |   N  |   S  |ENTER   |
+ * |--------+------+------+------+------+------| -    |           | =    |------+------+------+------+------+--------|
+ * | LShift |   ;  |   Q  |   J  |   K  |   X  |      |           |      |   B  |   M  |   W  |   V  |  Z   | RShift |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |LCTRL|ALT  |CTLShTab|CTL-TAB| LGui|                                       | Mouse| UP   | DOWN |  ALT | RCTRL  |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        | Alt  |      |       |      |Alt   |
+ *                                 ,------|------|------|       |------+--------+------.
+ *                                 |      |      | Up   |       | PgUp |        |      |
+ *                                 | Space|DELETE|------|       |------|  Tab   |Enter |
+ *                                 |mirror|      | Down |       | PgDn |        |mirror|
+ *                                 `--------------------'       `----------------------'
+ */
+// If it accepts an argument (i.e, is a function), it doesn't need KC_.
+// Otherwise, it needs KC_*
+[DVORAK] = LAYOUT_ergodox(  // layer 0 : dvorak
+        // left hand
+        KC_ESC,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_TRNS,
+        KC_TAB,         KC_QUOTE,	  KC_COMM,KC_DOT, KC_P,   KC_Y,   KC_MINUS,
+        KC_BSPC,        KC_A,         KC_O,   KC_E,   KC_U,   KC_I,
+        KC_LSFT,        KC_SCLN,	  KC_Q,   KC_J,   KC_K,   KC_X,   KC_EQL,
+         KC_LCTRL, 		KC_LALT,	  LCTL(LSFT(KC_TAB)),LCTL(KC_TAB),  MO(SHORTCUTS),
+                                              KC_LGUI,  KC_BTN1,
+
+                                                              KC_UP,
+                                         LT(HALFDVORAK,KC_SPACE),KC_DEL,KC_DOWN,
+        // right hand
+             KC_TRNS,     KC_6,   KC_7,  KC_8,   KC_9,   KC_0,             KC_BSPC,
+             KC_LBRC,    KC_F,   KC_G,  KC_C,   KC_R,   KC_L,             KC_SLASH,
+                          KC_D,   KC_H,  KC_T,   KC_N,   KC_S,		   KC_ENT,
+             KC_RBRC,KC_B,   KC_M,  KC_W,	 KC_V,	 KC_Z,		   	   KC_RSFT,
+                                  MO(SHORTCUTS), KC_LEFT,KC_RIGHT,KC_RALT,KC_RCTRL,
+             KC_BTN1,        KC_RGUI,
+             KC_PGUP,
+
+             KC_PGDN,KC_TAB, LT(HALFDVORAK, KC_ENT)
+    ),
+/* Keymap 1: mirrored dvorak
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |  BSPC  |   0  |   9  |   8  |   7  |   6  | \    |           | `    |   5  |   4  |   3  |   2  |   1  |  ESC  |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |   	/   |   L  |   R  |   C  |   G  |   F  |  L1  |           |  L1  |   Y  |   P  |   .  |   ,  |   '  |   TAB  |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * | ENTER  |   S  |   N  |   T  |   H  |   D  |------|           |------|   I  |   U  |   E  |   O  |   A  |BSPC    |
+ * |--------+------+------+------+------+------| =    |           | -    |------+------+------+------+------+--------|
+ * | LShift |   Z  |   V  |   W  |   M  |   B  |      |           |      |   X  |   K  |   J  |   Q  |   ;  | RShift |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |LCTRL|ALT  |CTLShTab|CTL-TAB| LGui|                                       | MOUSE| UP   | DOWN |  ALT | RCTRL  |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        | Alt  |      |       |      |Alt   |
+ *                                 ,------|------|------|       |------+--------+------.
+ *                                 |      |      | Home |       | PgUp |        |      |
+ *                                 | Space|DELETE|------|       |------|  Tab   |Enter |
+ *                                 |mirror|      | End  |       | PgDn |        |mirror|
+ *                                 `--------------------'       `----------------------'
+ */
+// If it accepts an argument (i.e, is a function), it doesn't need KC_.
+// Otherwise, it needs KC_*
+[HALFDVORAK] = LAYOUT_ergodox(  // layer 1 : mirrored Dvorak
+        // left hand
+        KC_BSPC,         KC_0,         KC_9,   KC_8,   KC_7,   KC_6,   KC_TRNS,
+        KC_SLASH,         KC_L,         KC_R,   KC_C,   KC_G,   KC_F,   KC_LBRC,
+        KC_ENT,        KC_S,         KC_N,   KC_T,   KC_H,   KC_D,
+        KC_LSFT,        KC_Z,  		  KC_V,   KC_W,   KC_M,   KC_B,   KC_RBRC,
+        KC_LCTRL, 		KC_LALT,	  KC_TRNS,  KC_TRNS,  KC_TRNS,
+                                              KC_TRANSPARENT,  KC_TRANSPARENT,
+                                                              KC_TRNS,
+                                         KC_TRANSPARENT,KC_ENT,KC_TRNS,
+        // right hand
+             KC_TRNS,     KC_5,   KC_4,  KC_3,   KC_2,   KC_5,             KC_ESC,
+             KC_MINUS,    KC_Y,   KC_P,  KC_DOT, KC_COMM,KC_QUOT,             KC_TAB,
+                          KC_I,   KC_U,  KC_E,   KC_O,   KC_A,		 	   KC_BSPC,
+             KC_EQL,KC_X,   KC_K,  KC_J,	 KC_Q,   KC_SCLN,	   	   KC_RSFT,
+                                  KC_TRNS, KC_TRNS,  KC_TRNS,KC_RALT,           KC_RCTRL,
+             KC_TRANSPARENT,        KC_TRNS,
+             KC_TRNS,
+             KC_TRNS,KC_TAB, KC_TRANSPARENT
+    ),
+/* Keymap 2: qwerty
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |  ESC   |   1  |   2  |   3  |   4  |   5  | \    |           | \    |   6  |   7  |   8  |   9  |   0  |  BSPC  |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | TAB    |   Q  |   W  |   E  |   R  |   T  |  [   |           | ]    |   Y  |   U  |   I  |   O  |   P  |   '    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -57,23 +143,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_EQL,
         KC_BSPC,        KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
         KC_LSFT,        KC_Z,  		  KC_X,   KC_C,   KC_V,   KC_B,   KC_MINUS,
-        KC_LCTRL, 		KC_LALT,	  LCTL(LSFT(KC_TAB)),LCTL(KC_TAB),  MO(SHORTCUTS),
-                                              KC_LGUI,  KC_BTN1,
-
+       KC_LCTRL, 		KC_LALT,	  KC_TRNS,  KC_TRNS,  KC_TRNS,
+                                              KC_TRNS,  KC_TRANSPARENT,
                                                               KC_UP,
-                                         KC_SPACE,KC_DEL,KC_DOWN,
+                               KC_SPACE,KC_DEL,KC_DOWN,
         // right hand
              KC_TILD,     KC_6,   KC_7,  KC_8,   KC_9,   KC_0,             KC_BSPC,
              KC_RBRC,    KC_Y,   KC_U,  KC_I,   KC_O,   KC_P,             KC_SLASH,
                           KC_H,   KC_J,  KC_K,   KC_L,   KC_SCLN,		   KC_ENT,
              KC_EQL,KC_N,   KC_M,  KC_COMM,KC_DOT, KC_SLASH,   	   KC_RSFT,
-                                  MO(SHORTCUTS), KC_LEFT,KC_RIGHT,KC_RALT,KC_RCTRL,
-             KC_BTN1,        KC_RGUI,
+                                  KC_TRNS, KC_TRNS,  KC_TRNS,KC_RALT,           KC_RCTRL,
+             KC_TRANSPARENT,        KC_TRANSPARENT,
              KC_PGUP,
-
-             KC_PGDN,KC_TAB, LT(HALFQWERTY, KC_ENT)
+             KC_PGDN,KC_TAB, LT(HALFQWERTY , KC_ENT)
     ),
-/* Keymap 1: mirrored qwerty
+/* Keymap 3: mirrored qwerty
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |  BSPC  |   0  |   9  |   8  |   7  |   6  | \    |           |   `  |   5  |   4  |   3  |   2  |   1  |  ESC  |
@@ -117,92 +201,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
              KC_TRNS,
              KC_PGDN,KC_TAB, KC_TRANSPARENT
     ),
-/* Keymap 2: dvorak
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |  ESC   |   1  |   2  |   3  |   4  |   5  | `    |           | \    |   6  |   7  |   8  |   9  |   0  |  BSPC  |
- * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | TAB    |   '  |   ,  |   .  |   P  |   Y  |  [   |           |  ]   |   F  |   G  |   C  |   R  |   L  |   /    |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * | BkSp   |   A  |   O  |   E  |   U  |   I  |------|           |------|   D  |   H  |   T  |   N  |   S  |ENTER   |
- * |--------+------+------+------+------+------| -    |           | =    |------+------+------+------+------+--------|
- * | LShift |   ;  |   Q  |   J  |   K  |   X  |      |           |      |   B  |   M  |   W  |   V  |  Z   | RShift |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |LCTRL|ALT  |CTLShTab|CTL-TAB| LGui|                                       | Mouse| UP   | DOWN |  ALT | RCTRL  |
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        | Alt  |      |       |      |Alt   |
- *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | Up   |       | PgUp |        |      |
- *                                 | Space|DELETE|------|       |------|  Tab   |Enter |
- *                                 |mirror|      | Down |       | PgDn |        |mirror|
- *                                 `--------------------'       `----------------------'
- */
-// If it accepts an argument (i.e, is a function), it doesn't need KC_.
-// Otherwise, it needs KC_*
-[DVORAK] = LAYOUT_ergodox(  // layer 2 : dvorak
-        // left hand
-        KC_ESC,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_TRNS,
-        KC_TAB,         KC_QUOTE,	  KC_COMM,KC_DOT, KC_P,   KC_Y,   KC_MINUS,
-        KC_BSPC,        KC_A,         KC_O,   KC_E,   KC_U,   KC_I,
-        KC_LSFT,        KC_SCLN,	  KC_Q,   KC_J,   KC_K,   KC_X,   KC_EQL,
-        KC_LCTRL, 		KC_LALT,	  KC_TRNS,  KC_TRNS,  KC_TRNS,
-                                              KC_TRNS,  KC_TRANSPARENT,
-                                                              KC_UP,
-                              LT(HALFDVORAK, KC_SPACE),KC_DEL,KC_DOWN,
-        // right hand
-             KC_TRNS,     KC_6,   KC_7,  KC_8,   KC_9,   KC_0,             KC_BSPC,
-             KC_LBRC,    KC_F,   KC_G,  KC_C,   KC_R,   KC_L,             KC_SLASH,
-                          KC_D,   KC_H,  KC_T,   KC_N,   KC_S,		   KC_ENT,
-             KC_RBRC,KC_B,   KC_M,  KC_W,	 KC_V,	 KC_Z,		   	   KC_RSFT,
-                                  KC_TRNS, KC_TRNS,  KC_TRNS,KC_RALT,           KC_RCTRL,
-             KC_TRANSPARENT,        KC_TRANSPARENT,
-             KC_PGUP,
-             KC_PGDN,KC_TAB, LT(HALFDVORAK, KC_ENT)
-    ),
-/* Keymap 3: mirrored dvorak
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |  BSPC  |   0  |   9  |   8  |   7  |   6  | \    |           | `    |   5  |   4  |   3  |   2  |   1  |  ESC  |
- * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |   	/   |   L  |   R  |   C  |   G  |   F  |  L1  |           |  L1  |   Y  |   P  |   .  |   ,  |   '  |   TAB  |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * | ENTER  |   S  |   N  |   T  |   H  |   D  |------|           |------|   I  |   U  |   E  |   O  |   A  |BSPC    |
- * |--------+------+------+------+------+------| =    |           | -    |------+------+------+------+------+--------|
- * | LShift |   Z  |   V  |   W  |   M  |   B  |      |           |      |   X  |   K  |   J  |   Q  |   ;  | RShift |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |LCTRL|ALT  |CTLShTab|CTL-TAB| LGui|                                       | MOUSE| UP   | DOWN |  ALT | RCTRL  |
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        | Alt  |      |       |      |Alt   |
- *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | Home |       | PgUp |        |      |
- *                                 | Space|DELETE|------|       |------|  Tab   |Enter |
- *                                 |mirror|      | End  |       | PgDn |        |mirror|
- *                                 `--------------------'       `----------------------'
- */
-// If it accepts an argument (i.e, is a function), it doesn't need KC_.
-// Otherwise, it needs KC_*
-[HALFDVORAK] = LAYOUT_ergodox(  // layer 0 : default
-        // left hand
-        KC_BSPC,         KC_0,         KC_9,   KC_8,   KC_7,   KC_6,   KC_TRNS,
-        KC_SLASH,         KC_L,         KC_R,   KC_C,   KC_G,   KC_F,   KC_LBRC,
-        KC_ENT,        KC_S,         KC_N,   KC_T,   KC_H,   KC_D,
-        KC_LSFT,        KC_Z,  		  KC_V,   KC_W,   KC_M,   KC_B,   KC_RBRC,
-        KC_LCTRL, 		KC_LALT,	  KC_TRNS,  KC_TRNS,  KC_TRNS,
-                                              KC_TRANSPARENT,  KC_TRANSPARENT,
-                                                              KC_TRNS,
-                                         KC_TRANSPARENT,KC_ENT,KC_TRNS,
-        // right hand
-             KC_TRNS,     KC_5,   KC_4,  KC_3,   KC_2,   KC_5,             KC_ESC,
-             KC_MINUS,    KC_Y,   KC_P,  KC_DOT, KC_COMM,KC_QUOT,             KC_TAB,
-                          KC_I,   KC_U,  KC_E,   KC_O,   KC_A,		 	   KC_BSPC,
-             KC_EQL,KC_X,   KC_K,  KC_J,	 KC_Q,   KC_SCLN,	   	   KC_RSFT,
-                                  KC_TRNS, KC_TRNS,  KC_TRNS,KC_RALT,           KC_RCTRL,
-             KC_TRANSPARENT,        KC_TRNS,
-             KC_TRNS,
-             KC_TRNS,KC_TAB, KC_TRANSPARENT
-    ),
+
 /* Keymap 5: Symbol Layer
  *
  * ,---------------------------------------------------.           ,--------------------------------------------------.
@@ -335,7 +334,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 8: shortcuts
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |  ESC   |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |  BSPC  |
+ * |  ESC   |   F1 |   F2 |  F3  |  F4  |  F5  | F6   |           | F7   |   F8 |  F9  |  F10 | F11  |  F12 |  BSPC  |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | TAB    |   Q  |   W  |   E  |   R  |   T  |  L1  |           |  L1  |   Y  |   U  |   I  |   O  |   P  |   \    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -355,35 +354,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
-[SHORTCUTS] = LAYOUT_ergodox(  // layer 0 : default
+[SHORTCUTS] = LAYOUT_ergodox(  // layer 8 : default
         // left hand
-        RGB_MODE_KNIGHT,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_LEFT,
+        RGB_MODE_KNIGHT,         KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,
         KC_TAB,   LCTL(KC_Q),   LCTL(KC_W),LCTL(KC_E),LCTL(KC_R),LCTL(KC_T),   KC_NO,
         KC_BSPC,  LCTL(KC_A),   LCTL(KC_S),LCTL(KC_D),LCTL(KC_F),LCTL(KC_G),
         KC_LSFT,  LCTL(KC_Z),  	LCTL(KC_X),LCTL(KC_C),LCTL(KC_V),LCTL(KC_B),   KC_MINUS,
         RESET, 		KC_LALT,	  LCTL(LSFT(KC_TAB)),LCTL(KC_TAB),  KC_TRANSPARENT,
-                                              TG(SYMB),  TG(DVORAK),
+                                              TG(SYMB),  TG(QWERTY),
 
                                                               TG(FUNCTION),
                                          KC_NO,KC_NO,KC_NO,
 // right hand
-             KC_RGHT,     KC_6,   KC_7,  KC_8,   KC_9,   KC_0,             KC_BSPC,
-             TG(SYMB),KC_MS_WH_UP,KC_MS_BTN1,KC_MS_UP,KC_MS_BTN2,KC_MS_BTN4,KC_BSLS,
+             KC_F7, KC_F8,   KC_F9,  KC_F10,   KC_F11,   KC_F12,              KC_BSPC,
+             KC_NO,KC_MS_WH_UP,KC_MS_BTN1,KC_MS_UP,KC_MS_BTN2,KC_MS_BTN4,KC_BSLS,
 					  KC_MS_WH_DOWN,KC_MS_LEFT,KC_MS_DOWN,KC_MS_RIGHT,KC_MS_BTN3,KC_ENT,
              KC_EQL,KC_MS_WH_LEFT,KC_MS_WH_RIGHT,LCTL(KC_COMM),LCTL(KC_DOT),KC_MS_BTN5,KC_RSFT,
 								KC_TRNS, KC_UP,KC_DOWN,KC_RALT,           RESET,
              TG(PROPERSTENO),TG(PLVR),
-             KC_NO,
+             TG(SYMB),
              KC_NO,KC_MS_BTN1, KC_MS_BTN2
     ),
 
 /*              KC_RGHT,     KC_6,   KC_7,  KC_8,   KC_9,   KC_0,             KC_BSPC,
-             TG(SYMB),LCTL(KC_Y),LCTL(KC_U),LCTL(KC_I),LCTL(KC_O),LCTL(KC_P),KC_BSLS,
+             KC_NO,LCTL(KC_Y),LCTL(KC_U),LCTL(KC_I),LCTL(KC_O),LCTL(KC_P),KC_BSLS,
                           LCTL(KC_H),LCTL(KC_J),LCTL(KC_K),LCTL(KC_L),LCTL(KC_SCLN),KC_ENT,
              KC_EQL,LCTL(KC_N),LCTL(KC_M),LCTL(KC_COMM),LCTL(KC_DOT),LCTL(KC_SLASH),KC_RSFT,
                                   KC_TRNS, KC_UP,KC_DOWN,KC_RALT,           RESET,
              TG(PROPERSTENO),TG(PLVR),
-             KC_NO,
+             TG(SYMB),
              KC_NO,KC_NO, KC_NO
     ), */
 
@@ -404,7 +403,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
- *                                 |   c  |   v  |------|       |------|  n   |  m   |
+ *                                 |      |      |------|       |------|      |      |
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */

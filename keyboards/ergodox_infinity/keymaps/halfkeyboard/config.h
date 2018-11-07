@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef INFINITY_ERGODOX_CONFIG_H
 #define INFINITY_ERGODOX_CONFIG_H
 
+#define FORCE_NKRO
 
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0xFEED
@@ -70,7 +71,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Set 0 if debouncing isn't needed */
 #define DEBOUNCE    5
 
-#define SERIAL_LINK_BAUD 562500
+#define SERIAL_LINK_BAUD 1152000
 #define SERIAL_LINK_THREAD_PRIORITY (NORMALPRIO - 1)
 
 #define VISUALIZER_USER_DATA_SIZE 16

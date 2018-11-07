@@ -349,9 +349,9 @@ static void get_visualizer_layer_and_color(visualizer_state_t* state) {
         stop_keyframe_animation(&sweep_on_sweep_off_left_and_right);
         start_keyframe_animation(&led_test_animation);
     }
-    else    if (state->status.layer & 0x80) {
+    else if (state->status.layer & 0x80) {
         state->target_lcd_color = LCD_COLOR(VIOLET, saturation, 0xFF);
-        state->layer_text = "Plover";
+        state->layer_text = "PLOVER";
     }
     else if (state->status.layer & 0x40) {
         state->target_lcd_color = LCD_COLOR(RASPBERRY, saturation, 0xFF);
@@ -361,24 +361,31 @@ static void get_visualizer_layer_and_color(visualizer_state_t* state) {
         state->target_lcd_color = LCD_COLOR(RED, saturation, 0xFF);
         state->layer_text = "Symbols";
     }
-    else if (state->status.layer & 0x8) {
-        state->target_lcd_color = LCD_COLOR(OCEAN, saturation, 0xFF);
-        state->layer_text = "Mirrored Dvorak";
+    /*there is no layer 4
+    else if (state->status.layer & 0x10) {
+        state->target_lcd_color = LCD_COLOR(RED, saturation, 0xFF);
+        state->layer_text = "Symbols";
     }
-    else if (state->status.layer & 0x4) {
-        state->target_lcd_color = LCD_COLOR(BLUE, saturation, 0xFF);
-        state->layer_text = "Dvorak";
-        stop_keyframe_animation(&led_test_animation);
-        start_keyframe_animation(&sweep_on_sweep_off_left_and_right);
-    }
-    else if (state->status.layer & 0x2) {
+    */
+   else if (state->status.layer & 0x8) {
         state->target_lcd_color = LCD_COLOR(ORANGE, saturation, 0xFF);
         state->layer_text = "Mirrored Qwerty";
     }
-    else {
+    else if (state ->status.layer & 0x4){
         state->target_lcd_color = LCD_COLOR(YELLOW, saturation, 0xFF);
         state->layer_text = "Qwerty";
         stop_keyframe_animation(&led_test_animation);
         start_keyframe_animation(&Fade_in_all_leds);
     }
+    else if (state->status.layer & 0x2) {
+        state->target_lcd_color = LCD_COLOR(OCEAN, saturation, 0xFF);
+        state->layer_text = "Mirrored Dvorak";
+    }
+    else  {
+        state->target_lcd_color = LCD_COLOR(BLUE, saturation, 0xFF);
+        state->layer_text = "Dvorak";
+        stop_keyframe_animation(&led_test_animation);
+        start_keyframe_animation(&sweep_on_sweep_off_left_and_right);
+    }
+
 }
