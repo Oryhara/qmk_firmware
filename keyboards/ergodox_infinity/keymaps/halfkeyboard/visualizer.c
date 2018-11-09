@@ -353,8 +353,9 @@ static void get_visualizer_layer_and_color(visualizer_state_t* state) {
     else if (state->status.layer & 0x80) {
         state->target_lcd_color = LCD_COLOR(VIOLET, saturation, 0xFF);
         state->layer_text = "";
-        */
+
     }
+    */
     else if (state->status.layer & 0x40) {
         state->target_lcd_color = LCD_COLOR(RASPBERRY, saturation, 0xFF);
         state->layer_text = "Mirrored Symbols";
