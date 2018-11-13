@@ -349,27 +349,22 @@ static void get_visualizer_layer_and_color(visualizer_state_t* state) {
         stop_keyframe_animation(&sweep_on_sweep_off_left_and_right);
         start_keyframe_animation(&led_test_animation);
     }
-    /*there is no layer 7
     else if (state->status.layer & 0x80) {
-        state->target_lcd_color = LCD_COLOR(VIOLET, saturation, 0xFF);
-        state->layer_text = "";
-
-    }
-    */
-    else if (state->status.layer & 0x40) {
         state->target_lcd_color = LCD_COLOR(RASPBERRY, saturation, 0xFF);
         state->layer_text = "Mirrored Symbols";
     }
+    else if (state->status.layer & 0x40) {
+        state->target_lcd_color = LCD_COLOR(RED, saturation, 0xFF);
+        state->layer_text = "Symbols";
+    }
     else if (state->status.layer & 0x20) {
-        state->target_lcd_color = LCD_COLOR(RED, saturation, 0xFF);
-        state->layer_text = "Symbols";
+        state->target_lcd_color = LCD_COLOR(CYAN, saturation, 0xFF);
+        state->layer_text = "Mirrored Workman";
     }
-    /*there is no layer 4
     else if (state->status.layer & 0x10) {
-        state->target_lcd_color = LCD_COLOR(RED, saturation, 0xFF);
-        state->layer_text = "Symbols";
+        state->target_lcd_color = LCD_COLOR(TURQUOISE, saturation, 0xFF);
+        state->layer_text = "Workman";
     }
-    */
    else if (state->status.layer & 0x8) {
         state->target_lcd_color = LCD_COLOR(ORANGE, saturation, 0xFF);
         state->layer_text = "Mirrored Qwerty";
