@@ -301,50 +301,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 
-[PLVR] = LAYOUT_ergodox(  // layout: layer 7: Steno for Plover
-        // left hand
-        KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,
-        KC_NO,  KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   KC_TRNS,
-        KC_NO,  KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,
-        KC_NO,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,   KC_NO,
-        KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,
-                                      KC_TRNS, KC_TRNS,
-                                           KC_NO,
-                                 KC_C,   KC_V,   KC_NO,
-        // right hand
-             KC_TRNS,  KC_NO,   KC_NO,   KC_NO,  KC_NO,   KC_NO,   KC_TRNS,
-             KC_TRNS,   KC_6,    KC_7,    KC_8,   KC_9,    KC_0,   KC_TRNS,
-                        KC_Y,   KC_U,    KC_I,    KC_O,   KC_P,    KC_LBRC,
-               KC_NO,   KC_H,    KC_J,    KC_K,   KC_L, KC_SCLN,   KC_QUOT,
-                              KC_TRNS, KC_TRNS,  KC_NO,   KC_NO,     KC_NO,
-        KC_TRNS, KC_TRNS,
-        KC_TRNS,
-        KC_NO,  KC_N,   KC_M
-),
 
-/* Keymap 8: shortcuts
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |  ESC   |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |  BSPC  |
- * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | TAB    |   Q  |   W  |   E  |   R  |   T  |  L1  |           |  L1  |   Y  |   U  |   I  |   O  |   P  |   \    |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * | BkSp   |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  |ENTER   |
- * |--------+------+------+------+------+------| -    |           | =    |------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |LCTRL|ALT  |CTLShTab|CTL-TAB|     |                                       |  RGui| UP   | DOWN |  ALT | RCTRL  |
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        |SYMBOLS|Dvorak|       |Steno |Plover|
- *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | Home |       | PgUp |        |      |
- *                                 | Space|DELETE|------|       |------|  Tab   |Enter |
- *                                 |mirror|      | End  |       | PgDn |        |mirror|
- *                                 `--------------------'       `----------------------'
- */
-// If it accepts an argument (i.e, is a function), it doesn't need KC_.
-// Otherwise, it needs KC_*
 [SHORTCUTS] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
         RGB_M_K,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_LEFT,
@@ -408,48 +365,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,
         KC_NO,  KC_NO,   KC_NO
 ),
-    /* Keymap 10: Steno
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
- * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |   1  |   2  |   3  |   4  |   5  |      |           |      |  6   |  7   |   8  |   9  |  0   |        |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |   q  |   w  |   e  |   r  |   t  |------|           |------|  y   |  u   |   i  |   o  |  p   |   [    |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |   a  |   s  |   d  |   f  |   g  |      |           |      |  h   |  j   |   k  |   l  |  ;   |   '    |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      |      |      |                                       |      |      |      |      |      |
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |      |      |
- *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |      |
- *                                 |   c  |   v  |------|       |------|  n   |  m   |
- *                                 |      |      |      |       |      |      |      |
- *                                 `--------------------'       `--------------------'
- */
 
-[PROPERSTENO] = LAYOUT_ergodox(  // layout: layer 10
-        // left hand
-        KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,
-        STN_N1, STN_N2, STN_N3, STN_N4, STN_N5, STN_N6, KC_NO,
-        STN_FN, STN_S1, STN_TL, STN_PL, STN_HL, STN_ST1,
-        KC_NO,  STN_S2, STN_KL, STN_WL, STN_RL, STN_ST2,   KC_NO,
-        KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_TRNS,
-                                      KC_TRNS, KC_TRNS,
-                                           KC_TRNS,
-                                 STN_A,   STN_O,   KC_NO,
-        // right hand
-             KC_TRNS,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS,
-             KC_TRNS, STN_N7,  STN_N8,  STN_N9,  STN_NA,  STN_NB,   STN_NC,
-                     STN_ST3,  STN_FR,  STN_PR,  STN_LR,  STN_TR,   STN_DR,
-               KC_NO,STN_ST4,  STN_RR,  STN_BR,  STN_GR,  STN_SR,   STN_ZR,
-                              KC_TRNS, KC_TRNS,  KC_NO,   KC_NO,     KC_NO,
-        KC_TRNS, KC_TRNS,
-        KC_TRNS,
-        KC_NO,  STN_E,   STN_U
-),
 
 };
 
@@ -479,12 +395,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
-
-// Runs just one time when the keyboard initializes.
-void matrix_init_user(void) {
-  steno_set_mode(STENO_MODE_GEMINI); // or STENO_MODE_BOLT
-};
-
 
 // Runs constantly in the background, in a loop.
 void matrix_scan_user(void) {
